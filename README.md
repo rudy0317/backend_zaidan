@@ -2,6 +2,8 @@
 
 Repository backend PHP untuk aplikasi **Task Management**.
 
+📌 **GitHub Project Board:** [Task Management Project #4](https://github.com/users/rudy0317/projects/4/views/1)
+
 ## Jobdesk:
 - Buat database MySQL & tabel (`users`, `tasks`).
 - Buat REST API auth (Register/Login) & CRUD Task.
