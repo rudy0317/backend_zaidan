@@ -1,18 +1,18 @@
 # Backend API (`backend_zaidan`)
 
-Kodingan backend PHP buat aplikasi **Task Management**.
+Repository backend PHP untuk aplikasi **Task Management**.
 
 ## Jobdesk:
-- Bikin database MySQL & tabel (`users`, `tasks`).
-- Bikin REST API auth (Register/Login) & CRUD Task.
-- Aktifin CORS di PHP biar bisa diakses frontend (`localhost:5173`).
+- Buat database MySQL & tabel (`users`, `tasks`).
+- Buat REST API auth (Register/Login) & CRUD Task.
+- Aktifkan CORS di PHP agar bisa diakses frontend (`localhost:5173`).
 
-## Cara Jalanin:
+## Cara Menjalankan:
 ```bash
 php -S localhost:8000 -t public
 ```
 
-## Structure DB:
+## Struktur DB:
 - **users:** `id`, `name`, `email`, `password`, `created_at`
 - **tasks:** `id`, `user_id`, `title`, `description`, `status`, `created_at`
 
@@ -31,6 +31,6 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 ```
 
-## Git:
-- Bikin branch baru (`git checkout -b feature/nama-fitur`).
-- Push ke branch lo, terus buat PR.
+## Workflow Git:
+- Buat branch baru (`git checkout -b feature/nama-fitur`).
+- Push ke branch tersebut, lalu buat Pull Request (PR).
