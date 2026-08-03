@@ -5,13 +5,13 @@ Repository backend **PHP Native** untuk aplikasi **Task Management**.
 📌 **GitHub Project Board:** [Task Management Project #4](https://github.com/users/rudy0317/projects/4/views/1)
 
 ## Tech Stack:
-- PHP Native (Tanpa framework/Laravel)
-- MySQL Database (PDO / mysqli)
+- PHP Native
+- MySQL Database
 
-## Jobdesk:
-- Buat database MySQL & tabel (`users`, `tasks`).
-- Buat REST API auth (Register/Login) & CRUD Task menggunakan PHP Native.
-- Output respon wajib JSON (`header('Content-Type: application/json')`).
+## Jobdesk (CRUD Task):
+- Buat database MySQL & tabel `tasks`.
+- Buat API CRUD untuk mengelola data task/tugas.
+- Output respon berupa JSON (`header('Content-Type: application/json')`).
 - Aktifkan CORS di PHP agar bisa diakses frontend (`localhost:5173`).
 
 ## Cara Menjalankan:
@@ -19,19 +19,22 @@ Repository backend **PHP Native** untuk aplikasi **Task Management**.
 php -S localhost:8000
 ```
 
-## Struktur DB:
-- **users:** `id`, `name`, `email`, `password`, `created_at`
-- **tasks:** `id`, `user_id`, `title`, `description`, `status`, `created_at`
+## Struktur DB (`db_task_management`):
 
-## Endpoint List:
-- `POST /api/register.php` atau routing manual di `index.php`
-- `POST /api/login.php`
-- `GET /api/tasks.php`
-- `POST /api/tasks.php`
-- `PUT /api/tasks.php`
-- `DELETE /api/tasks.php`
+### Tabel `tasks`:
+- `id` (int, primary key, auto increment)
+- `title` (varchar 200)
+- `description` (text, optional)
+- `status` (enum: 'pending', 'in_progress', 'completed' | default: 'pending')
+- `created_at` (timestamp)
 
-## Header CORS & JSON (Wajib di awal script PHP):
+## Endpoint List (CRUD Only):
+- `GET /api/tasks.php` -> Tampilkan semua data task
+- `POST /api/tasks.php` -> Tambah task baru
+- `PUT /api/tasks.php?id={id}` -> Update data/status task
+- `DELETE /api/tasks.php?id={id}` -> Hapus task
+
+## Header CORS & JSON (Wajib di awal file PHP):
 ```php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
