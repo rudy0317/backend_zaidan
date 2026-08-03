@@ -1,137 +1,100 @@
-# 🛠️ Backend API Service (`backend_zaidan`)
+# Backend Service (`backend_zaidan`)
 
-**Tech Stack:** PHP (Pure PHP / Laravel) | MySQL | RESTful API (JSON Output)  
-**Lead Engineer:** @rudy0317  
-**Assignee (Intern):** @zaidan  
+Repo ini tempat kodingan backend (API) buat aplikasi **Task Management**. API yang dibuat di sini nanti bakal dipake sama tim Frontend (React).
 
 ---
 
-## 📌 1. Overview Project & Tujuan Magang
+## Task Anak Magang
 
-Selamat datang di tim backend! Repository ini diperuntukkan untuk membangun **RESTful API Service** sebagai backend pendukung aplikasi **Manajemen Tugas / Project (Task Management System)**.
-
-Anak magang bertugas membuat API yang nantinya dikonsumsi oleh tim Frontend (React - `frontend_edy`).
-
-### 🎯 Objective Utama Anak Magang:
-1. Merancang Database & Table Schema di MySQL.
-2. Membuat API Authentication (Register & Login).
-3. Membuat CRUD API untuk Manajemen Task/Tugas.
-4. Memastikan respon API berbentuk **JSON** yang konsisten.
-5. **CORS Mandatory:** Menambahkan header CORS agar API tidak terblokir saat diakses dari Frontend React (`http://localhost:5173` / `http://localhost:3000`).
+Tugas lo di repo ini:
+1. Bikin database MySQL & tabel-tabelnya.
+2. Bikin API Auth (Register & Login).
+3. Bikin API CRUD buat Task (Tugas).
+4. Pastiin semua response balikannya format JSON.
+5. **Penting:** Wajib aktifin header CORS di PHP biar bisa ditembak dari React (`localhost:5173`).
 
 ---
 
-## 💻 2. Prasyarat System (Prerequisites)
-
-Sebelum mulai koding, pastikan di laptop lo udah terinstall:
-- **PHP** >= 8.1 / 8.2 (Bisa via XAMPP / Laragon / Native PHP)
-- **MySQL / MariaDB** (Running di port 3306)
-- **Composer** (Jika menggunakan Laravel / PHP Packages)
-- **Postman** / **Bruno** / **Hopscotch** (Untuk testing API)
-- **Git**
-
----
-
-## ⚙️ 3. Panduan Setup Lokal
+## Setup Project
 
 ```bash
-# 1. Clone repository ini
+# 1. Clone repo
 git clone https://github.com/rudy0317/backend_zaidan.git
 cd backend_zaidan
 
-# 2. Buat file konfig (.env atau config.php)
-# Sesuaikan kredensial MySQL lokal (DB_HOST, DB_USER, DB_PASS, DB_NAME)
-
-# 3. Import Schema Database
-# Buat database 'db_task_management' di MySQL lokal lalu jalankan script SQL / Migration.
-
-# 4. Jalankan Local Server PHP
+# 2. Test server PHP lokal
 php -S localhost:8000 -t public
-# Server akan aktif di http://localhost:8000
 ```
 
 ---
 
-## 🗄️ 4. Spesifikasi Schema Database (Rancangan Wajib)
+## Rancangan Database (`db_task_management`)
 
-Buat database bernama `db_task_management` dengan struktur tabel minimal sebagai berikut:
+### 1. Tabel `users`
+- `id` (int, primary key, auto increment)
+- `name` (varchar 100)
+- `email` (varchar 150, unique)
+- `password` (varchar 255, hash pake bcrypt)
+- `created_at` (timestamp)
 
-### Table `users`
-| Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | INT / BIGINT | Primary Key, Auto Increment | User ID |
-| `name` | VARCHAR(100) | NOT NULL | Nama Lengkap |
-| `email` | VARCHAR(150) | NOT NULL, UNIQUE | Email User |
-| `password` | VARCHAR(255) | NOT NULL | Hashed Password (bcrypt/password_hash) |
-| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Waktu daftar |
-
-### Table `tasks`
-| Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | INT / BIGINT | Primary Key, Auto Increment | Task ID |
-| `user_id` | INT / BIGINT | Foreign Key -> `users.id` | Pemilik Task |
-| `title` | VARCHAR(200) | NOT NULL | Judul Tugas |
-| `description` | TEXT | NULLABLE | Detail Tugas |
-| `status` | ENUM | 'pending', 'in_progress', 'completed' | Status Tugas (Default: 'pending') |
-| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Waktu dibuat |
+### 2. Tabel `tasks`
+- `id` (int, primary key, auto increment)
+- `user_id` (int, foreign key ke `users.id`)
+- `title` (varchar 200)
+- `description` (text, optional)
+- `status` (enum: 'pending', 'in_progress', 'completed' | default: 'pending')
+- `created_at` (timestamp)
 
 ---
 
-## 📡 5. Spesifikasi RESTful API Endpoints (Wajib Dibuat)
+## List Endpoint API
 
-Semua HTTP Request harus mengembalikan header: `Content-Type: application/json`.
+Format balikan **wajib JSON**.
 
-### 🔑 Authentication Endpoints
-- `POST /api/register`
-  - **Body:** `{ "name": "...", "email": "...", "password": "..." }`
-  - **Response 201:** `{ "success": true, "message": "Register berhasil", "data": { "id": 1, "name": "...", "email": "..." } }`
-- `POST /api/login`
-  - **Body:** `{ "email": "...", "password": "..." }`
-  - **Response 200:** `{ "success": true, "message": "Login berhasil", "token": "...", "data": { ... } }`
+### Auth
+- `POST /api/register` (body: `name`, `email`, `password`)
+- `POST /api/login` (body: `email`, `password`)
 
-### 📋 Task Management Endpoints
-- `GET /api/tasks` ➔ List semua tugas (Support filter `?status=pending`)
-- `POST /api/tasks` ➔ Tambah tugas baru (`title`, `description`, `status`)
-- `GET /api/tasks/{id}` ➔ Detail 1 tugas berdasarkan ID
-- `PUT /api/tasks/{id}` ➔ Update tugas (ubah `status` atau `title`)
-- `DELETE /api/tasks/{id}` ➔ Hapus tugas
+### Tasks
+- `GET /api/tasks` (list semua task)
+- `POST /api/tasks` (tambah task baru)
+- `GET /api/tasks/{id}` (detail task)
+- `PUT /api/tasks/{id}` (update task / ganti status)
+- `DELETE /api/tasks/{id}` (hapus task)
 
 ---
 
-## 📐 6. Standar Response JSON
+## Format Response JSON
 
-Setiap API **WAJIB** mengembalikan format JSON seragam seperti di bawah ini:
-
-### Success Response (200 / 201)
+### Kalau sukses:
 ```json
 {
   "success": true,
-  "message": "Operation successful",
-  "data": { ... }
+  "message": "Berhasil",
+  "data": {}
 }
 ```
 
-### Error Response (400 / 401 / 404 / 500)
+### Kalau error:
 ```json
 {
   "success": false,
-  "message": "Detail pesan error spesifik",
-  "errors": null
+  "message": "Pesan error"
 }
 ```
 
 ---
 
-## 🌐 7. Wajib Aktifkan CORS (Cross-Origin Resource Sharing)
+## Setting CORS di PHP
 
-Agar React di frontend bisa request ke PHP tanpa terblokir browser, pastikan header ini diset di setiap entry point PHP (misal: `index.php`):
+Taruh ini di paling atas file entry point (`index.php`):
 
 ```php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
@@ -139,15 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 ---
 
-## 🌿 8. Git Branching & Workflow Rules
+## Aturan Git
 
-1. **DILARANG** direct push ke branch `main`.
-2. Selalu buat branch baru untuk pengerjaan fitur:
-   ```bash
-   git checkout -b feature/nama-fitur
-   # Contoh: git checkout -b feature/auth-api
-   ```
-3. Commit message yang rapi & deskriptif:
-   - `feat: buat endpoint login & register`
-   - `fix: handle error cors di index.php`
-4. Push ke GitHub dan **buat Pull Request (PR)** ke `main` untuk di-review oleh Lead Engineer.
+- JANGAN push langsung ke branch `main`.
+- Bikin branch sendiri: `git checkout -b feature/nama-fitur`.
+- Kalau udah selese, push ke GitHub trus bikin Pull Request (PR).
