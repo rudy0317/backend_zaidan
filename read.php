@@ -13,6 +13,10 @@ include("koneksi.php");
 
 $read = mysqli_query($koneksi, "SELECT * FROM tasks");
 
+$tasks = [];
+
 while ($data = mysqli_fetch_assoc($read)) {
-    var_dump($data);
+    $tasks[] = $data;
 }
+
+echo json_encode($tasks);

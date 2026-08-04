@@ -16,7 +16,7 @@ $id_task = $_GET['id_task'];
 $delete = mysqli_query($koneksi, "DELETE FROM tasks WHERE id_task='$id_task'");
 
 if ($delete) {
-    echo "Task berhasil dihapus";
+    echo json_encode(["message" => "Task berhasil dihapus"]);
 } else {
-    echo "Task gagal dihapus";
+    echo json_encode(["message" => "Task gagal dihapus"]);;
 }

@@ -21,7 +21,7 @@ $create = mysqli_query($koneksi, "INSERT INTO tasks
 VALUES('$id_user', '$title', '$description', '$status')");
 
 if ($create) {
-    echo "Task berhasil ditambahkan";
+    echo json_encode(["message => data berhasil ditambahkan"]);
 } else {
-    echo "Task gagal ditambahkan";
+    echo json_encode(["message => data gagal ditambahkan"]);
 }

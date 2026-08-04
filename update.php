@@ -26,7 +26,7 @@ $update = mysqli_query($koneksi, "UPDATE tasks SET
 ");
 
 if ($update) {
-    echo "Task berhasil diupdate";
+    echo json_encode(["message" => "Task berhasil dihapus"]);
 } else {
-    echo "Task gagal diupdate";
+    echo json_encode(["message" => "Task gagal diupdate"]);
 }
